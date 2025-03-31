@@ -64,4 +64,19 @@ func main() {
 	)
 
 	fmt.Printf("jan - %d feb- %d mar - %d apr - %d\n", Jan, Feb, Mar, Apr)
+
+	// calling function
+	result := add(3, 4)
+	fmt.Println("This is  the result", result)
+
+	sum, product := calculateAndProducts(10, 10)
+	fmt.Printf("this is sum: %d and this is product: %d\n", sum, product)
+}
+
+func add(a int, b int) int {
+	return a + b
+}
+
+func calculateAndProducts(a, b int) (int, int) {
+	return a + b, a * b
 }
