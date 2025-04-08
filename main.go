@@ -53,6 +53,25 @@ func main() {
 	}
 
 	fmt.Println("This is the matrix: ", matrix)
+
+	// SLICE
+	allNumbers := numbers[:] // this will insert all numbers array value as allNumbers slice
+	fmt.Println("This is allnumber values: ", allNumbers)
+
+	firstThree := numbers[0:3] // this will get all 3 values from numbers array
+	fmt.Println("This is firstThree", firstThree)
+
+	fruits := []string{"apple", "banana", "strawberry"}
+	fruits = append(fruits, "kiwi")
+	fmt.Printf("These are my fruits %v\n", fruits)
+
+	moreFruits := []string{"blueberries", "tomato"}
+	fruits = append(fruits, moreFruits...)
+	fmt.Printf("Combining 2 slices : %v\n", fruits)
+
+  scores := make([]int, 3, 3)
+	// scores = append(scores, 1)
+  fmt.Println("score: ", scores, "length: ", len(scores), "cap: ", cap(scores))
 }
 
 func add(a int, b int) int {
