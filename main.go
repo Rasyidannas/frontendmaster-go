@@ -72,6 +72,25 @@ func main() {
   scores := make([]int, 3, 3)
 	// scores = append(scores, 1)
   fmt.Println("score: ", scores, "length: ", len(scores), "cap: ", cap(scores))
+
+	// MAP
+	capitalCities := map[string]string{
+		"USA": "Washington D.C",
+		"India": "New Delhi",
+		"UK": "London",
+	}
+
+	fmt.Println(capitalCities["USA"])
+	// Checking if the key not exist
+	capital, exists := capitalCities["Germany"]
+	if exists {
+		fmt.Println("This is the capital", capital)
+	} else {
+		fmt.Println("Does not exist")
+	}
+
+	delete(capitalCities, "UK")
+	fmt.Printf("this new deleted map: %v", capitalCities)
 }
 
 func add(a int, b int) int {
