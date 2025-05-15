@@ -2,65 +2,38 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"time"
+	"flag"
+
+	"github.com/rasyidannas/femProject/internal/app"
+	"github.com/rasyidannas/femProject/internal/routes"
 )
 
-//Struct
-type Person struct {
-	Name string
-	Age int
-}
-
 func main() {
-	person := Person{Name: "John", Age: 25}
+	var port int
+	flag.IntVar(&port, "port", 8080, "go backend server port")
+	flag.Parse()
 
-	fmt.Printf("This is out person %+v\n", person)
-	
-	// anonymous Struct
-	employee := struct {
-		name string
-		id int
-	}{
-		name: "alice",
-		id: 123,
-	}
-	
-	type Address struct {
-		Street string
-		City string
-	}
-	
-	// nested struct
-	type Contact struct {
-		Name string
-		Address Address
-		Phone string
+	app, err := app.NewApplication()
+
+	if err != nil {
+		panic(err)
 	}
 
-	contact := Contact {
-		Name: "Rasyid",
-		Address: Address{
-			Street: "Jl Jeruck",
-			City: "Sidoarjo",
-		},
-		Phone: "812731766123",
+	r := routes.SetupRoutes(app)
+	server := &http.Server{
+		Addr: fmt.Sprintf(":%d", port),
+		Handler: r,
+		IdleTimeout: time.Minute,
+		ReadTimeout: 10 * time.Second,
+		WriteTimeout: 30 * time.Second,
 	}
 
-	fmt.Println("This is contact", contact)
+	app.Logger.Printf("we are running on port %d\n", port)
 
-	fmt.Println("This is employee", employee)
-
-	fmt.Println("Name before: ", person.Name)
-	person.modifyPersonName("Rasyid")
-	fmt.Println("Name after: ", person.Name)
-
-	x := 20
-	ptr := &x
-	fmt.Printf("value of x: %d and address of x %p\n", x, ptr)
-	*ptr = 30
-	fmt.Printf("value of x new: %d and address of x %p\n", x, ptr)
-}
-
-func(p *Person) modifyPersonName(name string) {
-	p.Name = name
-	fmt.Println("inside scope: new name", p.Name)
+	err = server.ListenAndServe()
+	if err != nil {
+		app.Logger.Fatal(err)
+	}
 }
